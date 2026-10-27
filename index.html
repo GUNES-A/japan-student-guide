@@ -8,38 +8,31 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;700&display=swap');
 
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --text-main: #ffffff;
             --text-dark: #1f2937;
+            --bg-glass: rgba(255, 255, 255, 0.85);
+            --border-glass: rgba(255, 255, 255, 0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* Prevent all horizontal scrolling completely */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *, *::before, *::after { box-sizing: inherit; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #ffecd2);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            /* Static, non-animated gradient for maximum performance on mobile */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 25%, #a1c4fd 75%, #c2e9fb 100%);
+            background-attachment: fixed;
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
 
         /* Header & Lang Toggle */
@@ -51,87 +44,95 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--glass-border);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border-glass);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        .logo { font-weight: 800; font-size: 1.2rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .logo { font-weight: 800; font-size: 1.1rem; color: #1f2937; }
         
         .lang-btn {
-            background: rgba(255,255,255,0.3);
-            border: 1px solid #fff;
+            background: #1f2937;
+            border: none;
             padding: 8px 16px;
             border-radius: 20px;
             color: #fff;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
-        .lang-btn:hover { background: rgba(255,255,255,0.5); transform: scale(1.05); }
 
         /* Hero Section */
         .hero {
-            padding: 100px 20px 40px;
+            padding: 90px 20px 30px;
             text-align: center;
-            color: #fff;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: #1f2937;
         }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
-        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .hero h1 { font-size: 2rem; margin-bottom: 10px; font-weight: 800; line-height: 1.2; }
+        .hero p { font-size: 1rem; opacity: 0.9; }
 
-        /* Grid Layout for 11 Categories */
+        /* STRICT MOBILE GRID LAYOUT */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            padding: 0 20px 40px;
-            max-width: 1000px;
+            grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
+            gap: 12px;
+            padding: 0 15px 30px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
             flex: 1;
         }
 
+        /* Performant Cards without heavy blur */
         .category-card {
-            border-radius: 24px;
-            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 20px 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .category-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.3);
+        
+        .cat-icon { font-size: 2.5rem; }
+        .cat-title { 
+            font-weight: 700; 
+            font-size: 0.85rem; 
+            color: #1f2937; 
+            line-height: 1.3;
+            /* Force long words to break to next line */
+            word-break: break-word; 
+            hyphens: auto;
+            width: 100%;
         }
-        .cat-icon { font-size: 3rem; text-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .cat-title { font-weight: 700; font-size: 0.95rem; color: #1f2937; }
 
         /* Footer & QR Code */
         footer {
             margin-top: auto;
             padding: 30px 20px;
-            border-top: 1px solid var(--glass-border);
+            background: var(--bg-glass);
+            border-top: 1px solid var(--border-glass);
             text-align: center;
-            border-radius: 40px 40px 0 0;
+            border-radius: 30px 30px 0 0;
         }
         .qr-container {
             background: #fff;
-            padding: 15px;
-            border-radius: 20px;
+            padding: 10px;
+            border-radius: 15px;
             display: inline-block;
             margin-top: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .qr-container img { width: 120px; height: 120px; display: block; }
+        .qr-container img { width: 100px; height: 100px; display: block; }
         .footer-text { font-weight: 700; color: #1f2937; font-size: 1.1rem; }
 
         /* Bottom Sheet Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease;
             z-index: 999;
@@ -141,16 +142,13 @@
         .bottom-sheet {
             position: fixed;
             bottom: -100%; left: 0; right: 0;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 30px 30px 0 0;
-            padding: 20px;
+            background: #f3f4f6;
+            border-radius: 25px 25px 0 0;
+            padding: 20px 15px;
             max-height: 85vh;
             overflow-y: auto;
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1);
+            transition: bottom 0.3s ease; /* Simplified transition */
             z-index: 1000;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
         }
         .bottom-sheet.active { bottom: 0; }
         
@@ -158,29 +156,28 @@
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 20px;
             position: sticky; top: 0;
-            background: rgba(255,255,255,0.9);
-            padding: 15px; border-radius: 15px;
-            z-index: 2; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: #f3f4f6;
+            padding: 10px 0;
+            z-index: 2;
         }
-        .modal-title { font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .modal-title { font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
         .close-btn {
-            background: #f3f4f6; border: none; width: 36px; height: 36px;
+            background: #e5e7eb; border: none; width: 32px; height: 32px;
             border-radius: 50%; font-size: 1.2rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
         }
 
         /* Accordion */
         .accordion-item {
             background: #ffffff;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border-radius: 12px;
+            margin-bottom: 10px;
             overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         .accordion-header {
-            padding: 18px 20px;
+            padding: 16px;
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             color: #374151;
             cursor: pointer;
             display: flex;
@@ -192,41 +189,38 @@
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease;
-            background: #f9fafb;
+            transition: max-height 0.3s ease;
+            background: #fff;
         }
         .accordion-content p {
-            padding: 0 20px 20px;
-            line-height: 1.7;
-            font-size: 0.95rem;
+            padding: 0 16px 16px;
+            line-height: 1.6;
+            font-size: 0.9rem;
             color: #4b5563;
             white-space: pre-line;
+            margin: 0;
         }
         .chevron { transition: transform 0.3s ease; }
         .accordion-item.active .chevron { transform: rotate(180deg); }
-        .accordion-item.active .accordion-content { max-height: 2500px; } /* Large max-height for long content */
+        .accordion-item.active .accordion-content { max-height: 2500px; }
 
-        @media (min-width: 768px) {
-            .bottom-sheet {
-                width: 600px; left: 50%; transform: translateX(-50%);
-                border-radius: 24px; bottom: auto; top: 50%;
-                opacity: 0; pointer-events: none; margin-top: 50px;
-                transition: all 0.4s ease;
+        @media (max-width: 360px) {
+            .grid-container {
+                grid-template-columns: 1fr; /* For very tiny phones */
             }
-            .bottom-sheet.active { top: 50%; transform: translate(-50%, -50%); opacity: 1; pointer-events: auto; margin-top: 0; }
         }
     </style>
 </head>
 <body>
 
-    <header class="glass">
+    <header>
         <div class="logo">🇯🇵 Gakusei Guide</div>
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN / JA</button>
     </header>
 
     <section class="hero">
-        <h1 id="heroTitle">Yokoso! Welcome to Japan</h1>
-        <p id="heroSubtitle">Your ultimate student survival guide. Tap a category to start.</p>
+        <h1 id="heroTitle">Yokoso! Welcome</h1>
+        <p id="heroSubtitle">Your ultimate student survival guide. Tap to start.</p>
     </section>
 
     <!-- Categories Grid -->
@@ -235,16 +229,14 @@
     </div>
 
     <!-- Footer with QR -->
-    <footer class="glass">
+    <footer>
         <p class="footer-text" id="footerText">Share with friends!📱</p>
-        <p style="font-size: 0.8rem; margin-top: 5px; color: #4b5563;" id="footerSub">Scan to open the guide</p>
         <div class="qr-container">
-            <!-- Using a dummy placeholder URL, change data parameter to your actual URL when hosted -->
+            <!-- QR Kodu Değiştirdiğin Kısım -->
             <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://studentguidejapan.com" alt="QR Code">
         </div>
     </footer>
 
-    <!-- Modal Background -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
 
     <!-- Bottom Sheet / Modal -->
@@ -253,15 +245,13 @@
             <div class="modal-title" id="modalTitle"></div>
             <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <div id="accordionContainer">
-            <!-- Content injected via JS -->
-        </div>
+        <div id="accordionContainer"></div>
     </div>
 
     <script>
         let currentLang = 'en';
 
-        // Massive Database containing all 11 Categories and highly detailed topics
+        // 11 KATEGORILIK DEVASA VERITABANI
         const guideData = {
             daily: {
                 icon: "🏡", id: "daily",
@@ -269,34 +259,16 @@
                 ja: { title: "1. 日常生活" },
                 topics: [
                     {
-                        en: {
-                            title: "Garbage Sorting, Days & Big Items (粗大ゴミ)",
-                            content: "Japan has extremely strict garbage sorting rules. You must separate burnable (燃えるゴミ), non-burnable (燃えないゴミ), PET bottles, cans, and paper. \n\nCrucial Rules:\n1. Use designated city bags (available at convenience stores or supermarkets) if your municipality requires them.\n2. Collection days vary by neighborhood. Check the physical calendar provided by your City Hall or your apartment lobby.\n3. Take the trash out ON THE MORNING of the collection day (usually before 8:00 AM). Do NOT put it out the night before, as crows or cats will scatter it, angering neighbors.\n\nOversized Garbage (Sodai-gomi): Furniture, mattresses, or appliances cannot be thrown in regular trash. You must call the city's bulky waste center or apply online, purchase a sticker at a convenience store, place it on the item, and leave it outside on a specific date."
-                        },
-                        ja: {
-                            title: "ゴミの分別・収集日・粗大ゴミ",
-                            content: "日本のゴミ分別ルールは非常に厳格です。燃えるゴミ、燃えないゴミ、ペットボトル、缶、紙類を正しく分ける必要があります。\n\n重要なルール：\n1. 自治体指定のゴミ袋がある場合は、必ずスーパーやコンビニで購入して使用してください。\n2. 収集日は地域によって異なります。区役所でもらえるカレンダーやマンションの掲示板を確認してください。\n3. ゴミは必ず収集日の「当日の朝（通常午前8時前）」に出してください。前日の夜に出すと、カラスや猫が散らかし、近隣トラブルの原因になります。\n\n粗大ゴミ：家具や布団、家電は通常のゴミとして捨てられません。自治体の粗大ゴミ受付センターに電話かネットで申し込み、コンビニで処理券（シール）を購入して貼り、指定された日に出します。"
-                        }
+                        en: { title: "Garbage Sorting & Days", content: "Japan has extremely strict garbage sorting rules. You must separate burnable, non-burnable, PET bottles, and cans.\n1. Use designated city bags.\n2. Take the trash out ON THE MORNING of the collection day (usually before 8:00 AM). Do NOT put it out the night before, as crows will scatter it.\n\nOversized Garbage (Sodai-gomi): Furniture cannot be thrown in regular trash. You must call the city center, buy a sticker at a convenience store, and leave it outside on a specific date." },
+                        ja: { title: "ゴミの分別・収集日", content: "日本のゴミ分別ルールは非常に厳格です。\n1. 自治体指定のゴミ袋を使用してください。\n2. ゴミは必ず収集日の「当日の朝」に出してください。前日の夜に出すとカラスが散らかします。\n\n粗大ゴミ：家具は通常のゴミとして捨てられません。自治体に連絡し、コンビニで処理券を購入して貼る必要があります。" }
                     },
                     {
-                        en: {
-                            title: "Apartment Rules, Noise & Genkan (玄関)",
-                            content: "Living in a Japanese apartment requires strict etiquette. Walls are often thin, so washing machines or vacuum cleaners should not be used late at night (after 9 PM) or very early in the morning.\n\nGenkan (玄関): You MUST take your shoes off at the entrance (Genkan) before stepping into the main living area. Never wear outside shoes on Tatami mats or wooden floors.\n\nCommon Areas: Do not leave personal items, trash, or bicycles in the hallways. If you invite friends over, keep voices low, especially at night. Neighbors will call the police or management company if noise levels are high."
-                        },
-                        ja: {
-                            title: "マンションのルール・騒音・玄関",
-                            content: "日本の賃貸アパートやマンションでの生活にはマナーが求められます。壁が薄いことが多いため、夜遅く（夜9時以降）や早朝に洗濯機や掃除機を使用しないでください。\n\n玄関：室内に入る前に、必ず玄関で靴を脱いでください。土足のままフローリングや畳に上がることは絶対に禁止です。\n\n共用部分：廊下に私物やゴミ、自転車を放置しないでください。友人を呼ぶ際は、特に夜間は声のボリュームに注意しましょう。騒音がひどいと、近隣住民が警察や管理会社に通報することがあります。"
-                        }
+                        en: { title: "Apartment & Noise Rules", content: "Walls are often thin, so washing machines or vacuum cleaners should not be used late at night (after 9 PM).\n\nGenkan (玄関): You MUST take your shoes off at the entrance before stepping into the main living area. Never wear outside shoes inside.\n\nCommon Areas: Do not leave personal items, trash, or bicycles in the hallways." },
+                        ja: { title: "マンションのルール・騒音", content: "壁が薄いことが多いため、夜遅くに洗濯機や掃除機を使用しないでください。\n\n玄関：室内に入る前に、必ず玄関で靴を脱いでください。\n\n共用部分：廊下に私物やゴミ、自転車を放置しないでください。" }
                     },
                     {
-                        en: {
-                            title: "Washing Machines, Toilets & Utilities",
-                            content: "Washing Machines: Unlike in Europe or Turkey, standard Japanese washing machines only use COLD WATER straight from the tap. There is no built-in heater. To clean effectively, use high-quality Japanese liquid detergents (like Attack or Ariel) formulated for cold water, or use the 'bathwater pump' feature if available.\n\nToilets/Bath: Toilet paper goes INSIDE the toilet (do not put it in a trash bin). Washlet controls include bidet, spray, and flush. When bathing, wash your body OUTSIDE the tub first, then soak in the clean water.\n\nUtilities: If your water, gas, or electricity stops, it usually means a bill is unpaid. You receive bills in your mailbox. Take them to any convenience store (FamilyMart, 7-Eleven, Lawson) and hand them to the cashier with cash to pay. If moving in, gas usually requires a technician to visit your home to open the valve."
-                        },
-                        ja: {
-                            title: "洗濯機・トイレ・光熱費",
-                            content: "洗濯機：ヨーロッパやトルコなどと異なり、日本の一般的な洗濯機は「お湯」を沸かす機能がなく、「冷たい水道水」のみで洗います。そのため、冷水でも汚れが落ちやすい日本製の液体洗剤（アタックやアリエールなど）を使用してください。\n\nトイレ・お風呂：トイレットペーパーはゴミ箱に捨てず、必ずトイレに流してください。お風呂では、まず湯船の外で体を洗い、綺麗な状態で湯船に浸かるのがルールです。\n\n光熱費：水道や電気、ガスが止まった場合、多くは料金の未払いが原因です。ポストに届く請求書（払込票）をコンビニ（ファミマ、セブン、ローソン等）のレジに持っていき、現金で支払うことができます。入居時、ガスの開栓には作業員の立ち会いが必要です。"
-                        }
+                        en: { title: "Washing Machines & Utilities", content: "Washing Machines: Standard Japanese washing machines only use COLD WATER. Use high-quality Japanese liquid detergents formulated for cold water.\n\nToilets/Bath: Toilet paper goes INSIDE the toilet (not in a trash bin). Wash your body OUTSIDE the tub first, then soak.\n\nUtilities: You receive bills in your mailbox. Take them to any convenience store and pay with cash at the register." },
+                        ja: { title: "洗濯機・トイレ・光熱費", content: "洗濯機：日本の洗濯機は「冷たい水道水」のみで洗います。冷水用の日本製液体洗剤を使用してください。\n\nトイレ・風呂：トイレットペーパーは必ずトイレに流してください。お風呂では、湯船の外で体を洗ってから入ります。\n\n光熱費：ポストに届く請求書をコンビニに持っていき、現金で支払います。" }
                     }
                 ]
             },
@@ -306,24 +278,12 @@
                 ja: { title: "2. 交通・自転車" },
                 topics: [
                     {
-                        en: {
-                            title: "IC Cards (ICOCA/Suica) & Trains",
-                            content: "The easiest way to travel is using an IC Card (ICOCA in Kansai, Suica/Pasmo in Tokyo). You can tap them at train gates, buses, and use them to pay at convenience stores and vending machines. You can buy and recharge them at ticket machines in any station using cash.\n\nTrains: Use Google Maps or 'Japan Transit Planner' (Navitime) to find the exact platform, train type (Local vs. Rapid/Express), and last train times (usually around midnight). If a train is delayed, staff will hand out 'delay certificates' (遅延証明書) for your school or workplace."
-                        },
-                        ja: {
-                            title: "ICカード (ICOCA/Suica) と電車",
-                            content: "移動に最も便利なのはICカード（関西ではICOCA、東京ではSuicaやPasmo）です。電車の改札やバスの乗車時にタッチするほか、コンビニや自販機での支払いにも使えます。駅の券売機で現金を使って購入・チャージが可能です。\n\n電車：Google Mapsや乗換案内アプリ（Navitimeなど）を使って、ホーム番号や電車の種類（普通、快速など）、終電の時間（通常深夜12時頃）を確認しましょう。電車が遅延した場合は、駅員が学校や職場に提出できる「遅延証明書」を配布します。"
-                        }
+                        en: { title: "Trains & IC Cards", content: "Use an IC Card (ICOCA, Suica). Tap them at train gates, buses, or use them to pay at convenience stores. Recharge them at station ticket machines using cash.\n\nTrains: Use Google Maps or Navitime to find the train type (Local vs. Express). If a train is delayed, staff will hand out 'delay certificates' (遅延証明書) for your school." },
+                        ja: { title: "電車とICカード", content: "ICカード（ICOCA、Suica）を使用します。駅の改札やバスでタッチし、コンビニでの支払いにも使えます。駅の券売機で現金チャージが可能です。\n\n電車：Google Maps等で電車の種類（普通、快速）を確認しましょう。電車が遅延した場合は、駅で「遅延証明書」をもらえます。" }
                     },
                     {
-                        en: {
-                            title: "Bicycle Rules, Registration & Insurance",
-                            content: "Bicycles are treated strictly as vehicles in Japan.\n\nRegistration (防犯登録): By law, your bike MUST be registered under your name. If you buy a used bike from a friend, you must go to a bike shop together to transfer the registration, otherwise you may be accused of theft by police.\n\nInsurance: In many regions (especially Osaka/Hyogo/Kansai and Tokyo), bicycle liability insurance is MANDATORY. You can buy this cheaply (around 2000-4000 yen/year) at convenience stores.\n\nRules & Fines: Do NOT ride with an umbrella, do NOT ride while using a smartphone, do NOT ride with earphones, and do NOT ride drunk. Fines for these offenses range from 50,000 to 1,000,000 JPY or even imprisonment."
-                        },
-                        ja: {
-                            title: "自転車のルール・防犯登録・保険",
-                            content: "日本では自転車は「車両」として厳しく扱われます。\n\n防犯登録：法律により、自転車は自分の名前で防犯登録をしなければなりません。友人から中古の自転車をもらう場合は、一緒に自転車屋に行き名義変更をしないと、警察に止められた際に窃盗を疑われます。\n\n保険：多くの地域（特に関西の大阪・兵庫や東京など）では、自転車損害賠償保険への加入が「義務」となっています。コンビニで年間2000〜4000円程度で簡単に加入できます。\n\nルールと罰金：傘差し運転、スマホを操作しながらの運転、イヤホン着用、飲酒運転は絶対に禁止です。違反すると5万円〜100万円以下の罰金、または懲役刑になる可能性があります。"
-                        }
+                        en: { title: "Bicycle Rules & Insurance", content: "Registration (防犯登録): Your bike MUST be registered under your name. If you buy a used bike, go to a bike shop to transfer the registration to avoid theft accusations.\n\nInsurance: Bicycle liability insurance is MANDATORY in regions like Osaka and Tokyo. Buy it at a convenience store.\n\nFines: Do NOT ride with an umbrella, smartphone, earphones, or drunk. Fines range from 50,000 to 1,000,000 JPY." },
+                        ja: { title: "自転車のルールと保険", content: "防犯登録：自転車は自分の名前で防犯登録をしなければなりません。中古を買う場合は名義変更が必要です。\n\n保険：大阪や東京などでは自転車保険への加入が義務です。コンビニで加入できます。\n\n罰金：傘差し、スマホ、イヤホン、飲酒運転は禁止です。高額な罰金が科せられます。" }
                     }
                 ]
             },
@@ -333,112 +293,64 @@
                 ja: { title: "3. 医療・緊急事態" },
                 topics: [
                     {
-                        en: {
-                            title: "Hospitals vs Clinics & Insurance",
-                            content: "In Japan, you don't go to a big Hospital (病院 - Byouin) for a simple cold; you go to a local Clinic (クリニック - Kurinikku) specializing in your symptom (e.g., Internal Medicine 内科, ENT 耳鼻科). Big hospitals often require a referral letter (紹介状), without which you will pay an extra 5000+ yen fee.\n\nHealth Insurance (健康保険): Always carry your National Health Insurance Card. With it, you only pay 30% of medical and prescription costs. Without it, you pay 100% upfront.\n\nBuying Medicine: Pharmacies (薬局) inside clinics give prescription drugs. Drugstores (ドラッグストア like Matsumoto Kiyoshi) sell over-the-counter painkillers and cold medicine. Ask the pharmacist: 'Kaze-gusuri arimasuka?' (Do you have cold medicine?)."
-                        },
-                        ja: {
-                            title: "病院とクリニック・健康保険",
-                            content: "日本では、単なる風邪で大きな総合病院（病院）には行かず、症状に合わせた地域の「クリニック」（内科、耳鼻科など）を受診します。大きな病院は通常「紹介状」が必要で、これがないと別途5000円以上の特別料金が請求されます。\n\n健康保険：国民健康保険証は常に携帯してください。これを提示すれば、医療費や薬代の自己負担は3割になります。持っていないと全額負担となります。\n\n薬の購入：処方箋の薬はクリニック併設の「薬局」で受け取ります。市販の鎮痛剤や風邪薬は「ドラッグストア（マツモトキヨシ等）」で購入します。店員に「風邪薬ありますか？」と尋ねてみましょう。"
-                        }
+                        en: { title: "Hospitals vs Clinics", content: "Go to a local Clinic (クリニック) for simple illnesses, not a big Hospital (病院). Big hospitals require a referral letter (紹介状), or you pay a 5000+ yen extra fee.\n\nHealth Insurance: Carry your National Health Insurance Card. With it, you pay only 30% of costs.\n\nMedicine: Buy painkillers and cold medicine at Drugstores (ドラッグストア)." },
+                        ja: { title: "病院とクリニック", content: "軽い病気の場合は、大きな病院ではなく地域のクリニックを受診します。大病院は紹介状がないと特別料金がかかります。\n\n健康保険：国民健康保険証を提示すれば、自己負担は3割になります。\n\n薬：市販の風邪薬はドラッグストアで購入できます。" }
                     },
                     {
-                        en: {
-                            title: "110, 119 & Earthquakes",
-                            content: "Emergencies: Call 110 for Police. Call 119 for Fire and Ambulance (Ambulances are FREE in Japan, unlike some countries).\n\nEarthquakes: Japan has frequent earthquakes. When your phone sounds a loud alarm (J-Alert), drop, cover your head, and hold on under a sturdy table. Do not run outside immediately. After the shaking stops, turn off the gas stove.\n\nEvacuation: If a Tsunami warning is issued, move to high ground immediately. Follow the green 'Evacuation Area' (避難場所) signs to local schools or parks."
-                        },
-                        ja: {
-                            title: "110番・119番・地震対応",
-                            content: "緊急連絡先：警察は「110番」、火事・救急車は「119番」です（日本の救急車は無料です）。\n\n地震：日本は地震が頻発します。スマホから緊急地震速報（Jアラート）が鳴ったら、姿勢を低くし、頭を守り、丈夫な机の下に隠れてください。慌てて外に飛び出さないでください。揺れが収まったらガスの火を消します。\n\n避難：津波警報が出た場合は、すぐに高台に逃げてください。街中にある緑色の「避難場所」の看板に従い、指定された学校や公園に避難しましょう。"
-                        }
+                        en: { title: "110, 119 & Earthquakes", content: "Emergencies: Call 110 for Police. Call 119 for Fire and Ambulance (Ambulances are FREE in Japan).\n\nEarthquakes: When the loud phone alarm sounds, drop, cover your head, and hold on. Do not run outside immediately. Turn off the gas stove after shaking stops." },
+                        ja: { title: "110番・119番・地震", content: "緊急連絡先：警察は110番、火事・救急車は119番です（救急車は無料です）。\n\n地震：スマホの警報が鳴ったら、頭を守り机の下に隠れます。揺れが収まったらガスの火を消します。" }
                     }
                 ]
             },
             official: {
                 icon: "🏛️", id: "official",
                 en: { title: "4. Official Paperwork" },
-                ja: { title: "4. 役所・公式手続き" },
+                ja: { title: "4. 役所手続き" },
                 topics: [
                     {
-                        en: {
-                            title: "City Hall (区役所) & Zairyu Card (在留カード)",
-                            content: "Moving In: Within 14 days of moving into a new apartment or arriving in Japan, you MUST go to the local City Hall / Ward Office (区役所 - Kuyakusho) to register your address. The staff will print your new address on the back of your Residence Card (Zairyu Card).\n\nCarrying the Card: By law, foreign residents must carry their Zairyu Card at ALL TIMES. If stopped by the police without it, you can be arrested or fined up to 200,000 JPY.\n\nMoving Out/Changing Address: When moving to a different city, you must first go to your current City Hall to get a 'Move-out Certificate' (転出証明書), then submit it to the new City Hall."
-                        },
-                        ja: {
-                            title: "区役所・在留カードのルール",
-                            content: "転入届：日本に到着した時や新しいマンションに引っ越した際は、14日以内に必ず管轄の「区役所・市役所」に行き、住所登録を行わなければなりません。手続きをすると、在留カードの裏面に新しい住所が印字されます。\n\n携帯義務：法律により、外国人は「在留カード」を常時携帯することが義務付けられています。警察に職務質問された際に持っていないと、逮捕されたり20万円以下の罰金が科せられる可能性があります。\n\n引越し：別の市や区に引っ越す場合は、まず現在の区役所で「転出証明書」をもらい、新しい区役所に提出（転入届）する必要があります。"
-                        }
+                        en: { title: "City Hall & Zairyu Card", content: "Moving In: Within 14 days of moving, you MUST go to the City Hall (区役所) to register your address. They will print it on the back of your Residence Card (Zairyu Card).\n\nCarrying the Card: Foreigners must carry their Zairyu Card at ALL TIMES. Not having it can lead to arrest or fines up to 200,000 JPY." },
+                        ja: { title: "区役所と在留カード", content: "転入届：引越し後14日以内に必ず区役所に行き、住所登録を行います。在留カードの裏面に住所が印字されます。\n\n携帯義務：外国人は在留カードを常時携帯する義務があります。不携帯は罰金や逮捕の対象になります。" }
                     },
                     {
-                        en: {
-                            title: "My Number Card (マイナンバーカード)",
-                            content: "What is it? The 'My Number Card' is an official, government-issued photo ID that contains your personal Individual Number. While your Zairyu card shows your visa status, this card integrates your tax, social security, and health insurance information.\n\nWhy do you need it? It is extremely useful. You can use it at convenience store copy machines to print official documents (like your Juminhyo/Residence Certificate) anytime, rather than visiting City Hall. Many part-time jobs (baito), banks, and online brokerages require you to submit your My Number for tax purposes.\n\nHow to apply: After registering your address at City Hall, an application form with a QR code will be mailed to you. Scan the QR code with your phone, upload a selfie, and submit it. About a month later, you will receive a postcard telling you to go pick up the physical card at City Hall."
-                        },
-                        ja: {
-                            title: "マイナンバーカードとは？",
-                            content: "マイナンバーカードとは？：個人番号が記載された、顔写真付きの公的な身分証明書です。在留カードがビザの証明であるのに対し、こちらは税金、社会保障、健康保険の情報を統合するものです。\n\nなぜ必要なの？：非常に便利だからです。わざわざ区役所に行かなくても、コンビニのコピー機で住民票などの公的な証明書を発行できます。また、アルバイト先や銀行口座開設時、証券口座の開設時などに、税務処理のためマイナンバーの提出が求められます。\n\n申請方法：区役所で住所登録をした後、QRコード付きの申請書が自宅に郵送されます。スマホでQRコードを読み取り、自撮り写真をアップロードして申請します。約1ヶ月後に交付通知書（ハガキ）が届くので、指定の役所へ本人が受け取りに行きます。"
-                        }
+                        en: { title: "My Number Card", content: "A government photo ID combining your tax, social security, and health insurance info. It allows you to print official documents at convenience stores instead of going to City Hall. Required for opening bank accounts or part-time jobs. Apply by scanning the QR code mailed to you after address registration." },
+                        ja: { title: "マイナンバーカード", content: "税金や社会保障の情報が統合された顔写真付き身分証です。役所に行かずにコンビニで公的証明書を発行できます。銀行口座開設やアルバイトの際に必要です。" }
                     }
                 ]
             },
             shopping: {
                 icon: "🛒", id: "shopping",
-                en: { title: "5. Shopping & Money" },
-                ja: { title: "5. 買い物・お金・配達" },
+                en: { title: "5. Shopping & Delivery" },
+                ja: { title: "5. 買い物・配達" },
                 topics: [
                     {
-                        en: {
-                            title: "Supermarkets, Halal & Expiration Dates",
-                            content: "Discounts: Japanese supermarkets (like Life, Tamade, MaxValu) apply discount stickers (20% off, 半額 / Half-Price) to bento boxes, meat, and fish after 7:00 PM or 8:00 PM. This is a great way for students to save money.\n\nDates: Learn the difference between 消費期限 (Shouhi-kigen: Expiration Date - do not eat after this) and 賞味期限 (Shoumi-kigen: Best Before Date - still safe to eat, just less fresh).\n\nHalal/Vegan: Look for Gyomu Super (業務スーパー) for imported Halal chicken and products. You can also use Google Translate's camera feature to scan ingredient labels for pork (豚肉 - Butaniku) or alcohol (酒 - Sake)."
-                        },
-                        ja: {
-                            title: "スーパー・割引・賞味期限・ハラール",
-                            content: "割引シール：日本のスーパー（ライフ、玉出、マックスバリュなど）では、夜7時や8時を過ぎると、お弁当や肉、魚に割引シール（20%引き、半額など）が貼られます。学生にとって大きな節約になります。\n\n期限の違い：「消費期限（過ぎたら食べない方がよい）」と「賞味期限（美味しく食べられる期限）」の違いを理解しておきましょう。\n\nハラール・ヴィーガン：ハラールの鶏肉や輸入品は「業務スーパー」でよく見つかります。成分表示に豚肉（ぶたにく）や酒（さけ）が入っていないか、Google翻訳のカメラ機能を使って確認すると便利です。"
-                        }
+                        en: { title: "Supermarkets & Discounts", content: "Supermarkets apply discount stickers (20% off, 半額/Half-Price) to food after 7:00 PM. \nDates: 消費期限 (Expiration Date - do not eat after) vs 賞味期限 (Best Before Date - still safe).\nHalal: Look for Gyomu Super (業務スーパー) for imported items." },
+                        ja: { title: "スーパーと割引シール", content: "夜7時以降になると、スーパーのお弁当や肉に割引シール（半額など）が貼られます。\n期限：「消費期限」は過ぎたら食べない、「賞味期限」は美味しく食べられる期限です。" }
                     },
                     {
-                        en: {
-                            title: "Deliveries, Amazon & Fuzaihyo (不在票)",
-                            content: "Delivery Boxes (宅配ボックス): Many modern apartments have lockers at the entrance. If you are not home, the postman will leave your package there and put a paper in your mailbox with a PIN code to open it.\n\nRed Notice (Fuzaihyo - 不在票): If you miss a delivery and have no delivery box, the driver will leave a slip (usually red, white, or yellow). Scan the QR code on the slip or call the automated number to schedule a re-delivery time (e.g., 19:00 - 21:00) when you will definitely be home.\n\nPayments: Most convenience stores have automated cash registers. You insert cash into the machine yourself. Cashless payments like PayPay, LinePay, and credit cards are widely accepted everywhere."
-                        },
-                        ja: {
-                            title: "宅配・不在票・支払い",
-                            content: "宅配ボックス：最近のマンションには入り口に宅配ボックスがあります。不在時はそこに荷物が入れられ、ポストに暗証番号が書かれた紙が入ります。\n\n不在票（ふざいひょう）：荷物受け取り時に不在で、宅配ボックスもない場合、配達員は「不在票」をポストに入れます。紙にあるQRコードを読み取るか電話をかけ、確実に家にいる時間帯（例：19時〜21時）を指定して再配達を依頼してください。\n\n支払い：現在、多くのコンビニやスーパーで自動釣銭機付きのレジが導入されており、自分でお金を機械に入れます。PayPayやLinePayなどのQRコード決済、クレジットカードも広く普及しています。"
-                        }
+                        en: { title: "Deliveries & Fuzaihyo", content: "Red Notice (Fuzaihyo - 不在票): If you miss a delivery, the driver leaves a slip. Scan the QR code on the slip to schedule a re-delivery time when you will definitely be home." },
+                        ja: { title: "宅配と不在票", content: "不在票：荷物受け取り時に不在だった場合、配達員は不在票をポストに入れます。QRコードを読み取り、確実に家にいる時間を指定して再配達を依頼します。" }
                     }
                 ]
             },
             language: {
                 icon: "🗣️", id: "language",
-                en: { title: "6. Language & Comms" },
-                ja: { title: "6. 日本語・コミュニケーション" },
+                en: { title: "6. Language Comms" },
+                ja: { title: "6. 日本語会話" },
                 topics: [
                     {
-                        en: {
-                            title: "Essential Phrases & Asking for Help",
-                            content: "When you don't understand, don't just say 'Yes'. \n- Say: 'Mou ichido onegai shimasu' (Could you say that again please?).\n- Or: 'Nihongo ga amari wakarimasen' (I don't understand Japanese well).\n\nAt a store or restaurant:\n- 'Kore wa nan desu ka?' (What is this?)\n- 'Fukuro wa irimasen' (I don't need a bag).\n- 'O-kaikei onegai shimasu' (The bill, please).\n\nIf you are lost: 'Eki wa doko desu ka?' (Where is the station?). Use DeepL or Google Translate voice functions for complex institutional processes."
-                        },
-                        ja: {
-                            title: "必須フレーズと助けの求め方",
-                            content: "分からない時はただ「はい」と返事をしてはいけません。\n- 「もう一度お願いします（Mou ichido onegai shimasu）」と言いましょう。\n- または「日本語があまり分かりません（Nihongo ga amari wakarimasen）」と伝えます。\n\nお店やレストランで：\n- 「これは何ですか？（Kore wa nan desu ka?）」\n- 「袋はいりません（Fukuro wa irimasen）」\n- 「お会計お願いします（O-kaikei onegai shimasu）」\n\n道に迷った時：「駅はどこですか？（Eki wa doko desu ka?）」。役所などの複雑な手続きには、DeepLやGoogle翻訳の音声機能を活用しましょう。"
-                        }
+                        en: { title: "Asking for Help", content: "If you don't understand, don't just say 'Yes'. Say: 'Mou ichido onegai shimasu' (Could you say that again?).\nStore: 'Fukuro wa irimasen' (I don't need a bag).\nLost: 'Eki wa doko desu ka?' (Where is the station?)." },
+                        ja: { title: "助けの求め方", content: "分からない時は「もう一度お願いします」と伝えましょう。\nお店で：「袋はいりません」\n道に迷った時：「駅はどこですか？」" }
                     }
                 ]
             },
             food: {
                 icon: "🍜", id: "food",
-                en: { title: "7. Food & Restaurants" },
-                ja: { title: "7. 飲食・レストラン" },
+                en: { title: "7. Restaurants" },
+                ja: { title: "7. レストラン" },
                 topics: [
                     {
-                        en: {
-                            title: "Ticket Machines, Ordering & No Tipping",
-                            content: "Ticket Machines (券売機 - Kenbaiki): Ramen and fast-food places (Matsuya, Sukiya) often use ticket machines at the entrance. Insert your money, press the button with the picture of your food, and give the printed ticket to the staff.\n\nTipping: DO NOT TIP in Japan. Excellent service is included in the price. If you leave money on the table, the staff will chase you down the street thinking you forgot your change.\n\nChopsticks Rules: Never stick your chopsticks vertically into a bowl of rice (it resembles funerals). Never pass food from your chopsticks directly to someone else's chopsticks."
-                        },
-                        ja: {
-                            title: "券売機・チップ不要・箸のタブー",
-                            content: "券売機：ラーメン屋や牛丼チェーン（松屋、すき家など）では、入り口にある券売機で食券を買います。お金を入れ、食べたいメニューのボタンを押し、出てきたチケットを店員に渡します。\n\nチップ：日本では絶対にチップを渡さないでください。サービス料は最初から含まれています。テーブルにお金を置いていくと、「お忘れ物です！」と店員が追いかけてきます。\n\n箸のルール：ご飯に箸を垂直に突き刺す「立て箸」は仏教の葬儀を連想させるため絶対にやってはいけません。また、箸から箸へ食べ物を直接渡す「合わせ箸」もタブーです。"
-                        }
+                        en: { title: "No Tipping & Etiquette", content: "Ticket Machines: Fast-food places use machines. Buy a ticket and hand it to staff.\nTipping: DO NOT TIP in Japan. Excellent service is included.\nChopsticks: Never stick chopsticks vertically into rice (resembles funerals). Never pass food from chopstick to chopstick." },
+                        ja: { title: "チップ不要とマナー", content: "券売機：入口の券売機で食券を買い、店員に渡します。\nチップ：日本ではチップは不要です。置いていくと忘れ物だと思われます。\n箸：ご飯に箸を垂直に立てたり、箸から箸へ食べ物を渡すのはタブーです。" }
                     }
                 ]
             },
@@ -448,65 +360,41 @@
                 ja: { title: "8. 学校・アルバイト" },
                 topics: [
                     {
-                        en: {
-                            title: "Absence, Baito (Part-Time) 28h Limit",
-                            content: "School Rules: Punctuality is paramount in Japan. Being 1 minute late is considered completely unacceptable. If you are sick, you MUST email or call your teacher/school before the class starts.\n\nPart-Time Job (Arubaito - アルバイト): To work in Japan on a Student Visa, you must get a 'Permission to Engage in Activity Other Than That Permitted' (Shikakugai katsudo kyoka) stamped on the back of your Zairyu card. \n\nCRITICAL: You are strictly limited to working 28 HOURS PER WEEK. During long official school holidays (Summer/Winter break), this extends to 40 hours. If you exceed 28 hours, immigration will discover it during your visa renewal, and you will be deported."
-                        },
-                        ja: {
-                            title: "遅刻欠席・アルバイト（週28時間制限）",
-                            content: "学校のルール：日本では時間を守ることが絶対です。1分の遅刻でも厳しく見られます。病気で休む場合は、必ず授業が始まる前に先生や学校にメールか電話で連絡しなければなりません。\n\nアルバイト：留学生が日本で働くには、入国管理局で「資格外活動許可」を取得し、在留カードの裏面にスタンプを押してもらう必要があります。\n\n超重要：アルバイトは「週28時間以内」と法律で厳しく制限されています（学校の長期休暇中のみ週40時間まで可能）。これを超えて働くと、ビザ更新時に入管にバレて強制帰国（退去強制）になります。"
-                        }
+                        en: { title: "28h Limit for Part-Time Work", content: "Part-Time Job (Baito): To work on a Student Visa, you need a 'Permission' stamp on the back of your Zairyu card.\nCRITICAL: You are strictly limited to working 28 HOURS PER WEEK. If you exceed this, you will be deported when renewing your visa." },
+                        ja: { title: "アルバイト週28時間制限", content: "アルバイト：留学生が働くには在留カードに「資格外活動許可」が必要です。\n超重要：アルバイトは「週28時間以内」と法律で制限されています。超過すると強制帰国になります。" }
                     }
                 ]
             },
             tech: {
                 icon: "📱", id: "tech",
-                en: { title: "9. Internet & Tech" },
-                ja: { title: "9. インターネット・テクノロジー" },
+                en: { title: "9. Internet & SIM" },
+                ja: { title: "9. ネット・SIM" },
                 topics: [
                     {
-                        en: {
-                            title: "SIM Cards, Wi-Fi & Essential Apps",
-                            content: "Mobile Plans: Do not use major carrier shops (Docomo/Softbank) as a student, they are too expensive (7000+ yen/month). Get cheap MVNO SIMs or eSIMs online like Y!Mobile, Ahamo, UQ Mobile, or Rakuten Mobile (around 2000-3000 yen/month).\n\nWi-Fi: Free Wi-Fi is available at Convenience stores, Starbucks, and major train stations. \n\nMust-have Apps: \n1. LINE (For all messaging in Japan)\n2. Google Maps / Navitime (For trains)\n3. PayPay (For cashless payments)\n4. Yurekuru Call or NERV (For English earthquake alerts)."
-                        },
-                        ja: {
-                            title: "SIMカード・Wi-Fi・必須アプリ",
-                            content: "携帯プラン：学生は大手キャリア（ドコモやソフトバンクの実店舗）を使うと高額（月7000円以上）になります。オンラインで申し込める格安SIM（ahamo、Y!Mobile、UQモバイル、楽天モバイルなど）なら月2000〜3000円程度で済みます。\n\nWi-Fi：コンビニやスターバックス、主要な駅などでは無料Wi-Fiが飛んでいます。\n\n必須アプリ：\n1. LINE（日本での連絡手段はすべてこれです）\n2. Google Maps / Navitime（電車の乗り換えに必須）\n3. PayPay（キャッシュレス決済の主流）\n4. Yurekuru Call / NERV（英語対応の地震速報アプリ）"
-                        }
+                        en: { title: "Cheap SIMs & Apps", content: "Mobile: Avoid major shops (Docomo/Softbank). Get cheap MVNO SIMs online (Y!Mobile, Ahamo, UQ) for 2000-3000 yen/month.\nApps: LINE (Messaging), Google Maps (Trains), PayPay (Payments), NERV (Earthquakes)." },
+                        ja: { title: "格安SIMと必須アプリ", content: "携帯：大手キャリアは高いため、オンラインでahamoやUQモバイルなどの格安SIMを契約しましょう。\nアプリ：LINE、Google Maps、PayPay、NERV（地震速報）は必須です。" }
                     }
                 ]
             },
             culture: {
                 icon: "🌸", id: "culture",
-                en: { title: "10. Society & Culture" },
-                ja: { title: "10. 社会・文化・マナー" },
+                en: { title: "10. Public Manners" },
+                ja: { title: "10. 公共のマナー" },
                 topics: [
                     {
-                        en: {
-                            title: "Public Manners: Trains, Smoking & Queues",
-                            content: "Train Silence: It is extremely rude to talk on the phone while on a train or bus. Put your phone on 'Manner Mode' (silent) and send texts instead. Keep conversations with friends very quiet.\n\nSmoking: Walking while smoking is illegal in most Japanese cities. You can only smoke in designated smoking areas (喫煙所 - Kitsuenjo) often found near train stations or inside some cafes.\n\nQueueing: Japanese society relies heavily on queues. Whether waiting for a train, paying at a register, or entering a restaurant, ALWAYS line up properly and wait your turn. Never cut the line."
-                        },
-                        ja: {
-                            title: "公共のマナー：電車・タバコ・順番待ち",
-                            content: "電車内の静寂：電車やバスの中で電話で話すことは非常にマナー違反です。スマホは「マナーモード」に設定し、テキストメッセージを使いましょう。友人との会話も小声にしてください。\n\nタバコ：日本の多くの都市では「歩きタバコ」は条例で禁止されています。駅周辺や一部のカフェに設置されている「指定喫煙所（喫煙所）」でのみ喫煙が可能です。\n\n順番待ち：日本社会は「順番に並ぶこと」を非常に重視します。電車を待つ時、レジで払う時、飲食店に入る時など、必ず列に並んで自分の番を待ってください。絶対に割り込んではいけません。"
-                        }
+                        en: { title: "Trains, Smoking & Queues", content: "Train Silence: It is rude to talk on the phone on a train. Put your phone on 'Manner Mode'.\nSmoking: Walking while smoking is illegal. Use designated smoking areas (喫煙所).\nQueueing: ALWAYS line up properly and wait your turn. Never cut the line." },
+                        ja: { title: "電車・タバコ・順番待ち", content: "電車内の静寂：電車での通話はマナー違反です。マナーモードにしましょう。\nタバコ：歩きタバコは禁止です。指定された喫煙所を利用してください。\n順番待ち：必ず列に並んで順番を待ち、割り込まないでください。" }
                     }
                 ]
             },
             city: {
                 icon: "🗺️", id: "city",
-                en: { title: "11. City Survival Info" },
-                ja: { title: "11. 街のサバイバル情報" },
+                en: { title: "11. City Survival" },
+                ja: { title: "11. 街のサバイバル" },
                 topics: [
                     {
-                        en: {
-                            title: "Finding Koban, Toilets & Evacuation Sites",
-                            content: "Koban (交番 - Police Box): Small police stations found near almost every train station. If you lose your wallet, find a lost item, or get lost, go to a Koban. They have maps and will help you.\n\nFree Toilets: You don't have to pay to use toilets. Clean, free public restrooms are available in every Convenience Store, Train Station, Park, and Department Store.\n\nLost Wallet/Phone: Japanese people usually hand in lost items. If you lose something on a train, go to the Station Master's office. If lost on the street, go to the nearest Koban. It is very likely you will get it back."
-                        },
-                        ja: {
-                            title: "交番・トイレ・落し物",
-                            content: "交番（Koban）：ほぼすべての駅前にある小さな警察の詰所です。財布を落としたり、拾ったり、道に迷った時は交番に行きましょう。地図があり、丁寧に対応してくれます。\n\n無料トイレ：トイレにお金を払う必要はありません。コンビニ、駅、公園、デパートなど、どこにでも無料で清潔な公衆トイレがあります。\n\n落とし物：日本では落とし物が警察に届けられる確率が非常に高いです。電車で落とした場合は駅の窓口（忘れ物センター）へ、道で落とした場合は最寄りの交番へ行きましょう。見つかる可能性が高いです。"
-                        }
+                        en: { title: "Koban & Lost Items", content: "Koban (交番): Small police boxes near stations. Go here if you are lost or lose an item.\nFree Toilets: Clean public restrooms are free in Convenience Stores, Stations, and Parks.\nLost Items: If you lose something on a train, ask the Station Master. It is very likely you will get it back." },
+                        ja: { title: "交番・無料トイレ・落し物", content: "交番：駅前にある警察の詰所です。道に迷ったり落とし物をした時に行きます。\n無料トイレ：コンビニや駅、公園のトイレは無料で使えます。\n落とし物：電車で落とした場合は駅の窓口へ行きます。見つかる可能性が高いです。" }
                     }
                 ]
             }
@@ -516,7 +404,6 @@
         const heroSubtitle = document.getElementById('heroSubtitle');
         const gridContainer = document.getElementById('gridContainer');
         const footerText = document.getElementById('footerText');
-        const footerSub = document.getElementById('footerSub');
         const langBtn = document.getElementById('langBtn');
 
         const modalOverlay = document.getElementById('modalOverlay');
@@ -529,7 +416,7 @@
             for (const key in guideData) {
                 const cat = guideData[key];
                 const card = document.createElement('div');
-                card.className = 'category-card glass';
+                card.className = 'category-card';
                 card.onclick = () => openModal(key);
                 
                 card.innerHTML = `
@@ -544,14 +431,12 @@
             currentLang = currentLang === 'en' ? 'ja' : 'en';
             langBtn.innerText = currentLang === 'en' ? 'EN / JA' : 'JA / EN';
             
-            heroTitle.innerText = currentLang === 'en' ? "Yokoso! Welcome to Japan" : "ようこそ！日本へ";
-            heroSubtitle.innerText = currentLang === 'en' ? "Your ultimate student survival guide. Tap a category to start." : "留学生のためのサバイバルガイド。カテゴリをタップしてください。";
+            heroTitle.innerText = currentLang === 'en' ? "Yokoso! Welcome" : "ようこそ！日本へ";
+            heroSubtitle.innerText = currentLang === 'en' ? "Your ultimate student survival guide. Tap to start." : "留学生のためのガイド。タップして開始。";
             footerText.innerText = currentLang === 'en' ? "Share with friends! 📱" : "友達にシェアしよう！ 📱";
-            footerSub.innerText = currentLang === 'en' ? "Scan to open the guide" : "スキャンしてガイドを開く";
             
             renderGrid();
             
-            // If modal is open, refresh its content
             if (bottomSheet.classList.contains('active')) {
                 const activeKey = bottomSheet.getAttribute('data-active-key');
                 if (activeKey) openModal(activeKey);
@@ -565,7 +450,7 @@
             modalTitle.innerHTML = `${data.icon} ${data[currentLang].title}`;
             accordionContainer.innerHTML = '';
             
-            data.topics.forEach((topic, index) => {
+            data.topics.forEach((topic) => {
                 const accItem = document.createElement('div');
                 accItem.className = 'accordion-item';
                 
@@ -589,24 +474,17 @@
         function closeModal() {
             modalOverlay.classList.remove('active');
             bottomSheet.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            setTimeout(() => { accordionContainer.innerHTML = ''; }, 400);
+            document.body.style.overflow = '';
         }
 
         function toggleAccordion(btn) {
             const item = btn.parentElement;
             const isActive = item.classList.contains('active');
             
-            // Close all
             document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
-            
-            // Open clicked if it wasn't open
-            if (!isActive) {
-                item.classList.add('active');
-            }
+            if (!isActive) item.classList.add('active');
         }
 
-        // Initialize
         renderGrid();
     </script>
 </body>
